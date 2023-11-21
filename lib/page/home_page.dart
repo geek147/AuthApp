@@ -50,7 +50,14 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text('Welcome'),
+              Text(
+                'Welcome',
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 38,
+                  color: Colors.deepOrangeAccent,
+                ),
+              ),
             ],
           ),
         ),
