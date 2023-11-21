@@ -44,86 +44,106 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Register'),
-      ),
-      body: Form(
-        key: _formKey,
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              TextFormField(
-                controller: usernameController,
-                validator: (String? value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter a username';
-                  }
-                  return null;
-                },
-                textInputAction: TextInputAction.next,
-                decoration: const InputDecoration(
-                  labelText: 'Enter Username',
+      body: SafeArea(
+        child: Form(
+          key: _formKey,
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            margin: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Text(
+                  'Register',
+                  style: TextStyle(fontSize: 38, fontWeight: FontWeight.w800),
                 ),
-              ),
-              TextFormField(
-                controller: passwordController,
-                validator: validatePassword,
-                obscureText: _isHidden,
-                textInputAction: TextInputAction.next,
-                decoration: InputDecoration(
-                  labelText: 'Enter Password',
-                  errorText: passwordValidationText,
-                  suffix: InkWell(
-                    onTap: _togglePasswordView,
-                    child: Icon(
-                      _isHidden ? Icons.visibility : Icons.visibility_off,
+                const SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  controller: usernameController,
+                  validator: (String? value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter a username';
+                    }
+                    return null;
+                  },
+                  textInputAction: TextInputAction.next,
+                  decoration: const InputDecoration(
+                    labelText: 'Username',
+                  ),
+                ),
+                TextFormField(
+                  controller: passwordController,
+                  validator: validatePassword,
+                  obscureText: _isHidden,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    suffix: InkWell(
+                      onTap: _togglePasswordView,
+                      child: Icon(
+                        _isHidden ? Icons.visibility : Icons.visibility_off,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              TextFormField(
-                controller: emailController,
-                validator: (String? value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter an email';
-                  }
-                  if (!value.contains(RegExp(
-                      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'))) {
-                    return 'Please enter a valid email';
-                  }
-                  return null;
-                },
-                keyboardType: TextInputType.emailAddress,
-                textInputAction: TextInputAction.done,
-                decoration: const InputDecoration(
-                  labelText: 'Enter Email',
+                TextFormField(
+                  controller: emailController,
+                  validator: (String? value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter an email';
+                    }
+                    if (!value.contains(RegExp(
+                        r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'))) {
+                      return 'Please enter a valid email';
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.done,
+                  decoration: const InputDecoration(
+                    labelText: 'Email',
+                  ),
                 ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
+                const SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    minimumSize: const Size.fromHeight(50), // NEW
+                  ),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      AutoRouter.of(context).push(
+                        OtpRoute(
+                          userName: usernameController.text,
+                          password: passwordController.text,
+                          email: emailController.text,
+                        ),
+                      );
+                    }
+                  },
+                  child: const Text('Submit'),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    minimumSize: const Size.fromHeight(50), // NEW
+                  ),
+                  onPressed: () {
                     AutoRouter.of(context).push(
-                      OtpRoute(
-                        userName: usernameController.text,
-                        password: passwordController.text,
-                        email: emailController.text,
-                      ),
+                      const LoginRoute(),
                     );
-                  }
-                },
-                child: const Text('Submit'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  AutoRouter.of(context).push(
-                    const LoginRoute(),
-                  );
-                },
-                child: const Text('Go to Login'),
-              ),
-            ],
+                  },
+                  child: const Text('Go to Login'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

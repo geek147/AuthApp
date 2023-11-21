@@ -79,14 +79,19 @@ class _OtpPageState extends State<OtpPage> {
       },
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(
-            title: const Text('OTP Verification'),
-          ),
-          body: Padding(
+          body: Container(
             padding: const EdgeInsets.all(8.0),
+            margin: const EdgeInsets.all(16),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const Text(
+                  'OTP',
+                  style: TextStyle(fontSize: 38, fontWeight: FontWeight.w800),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
                 const Text(
                   'Enter the OTP sent to your number ending in 11',
                   textAlign: TextAlign.center,
@@ -112,6 +117,10 @@ class _OtpPageState extends State<OtpPage> {
                 const SizedBox(height: 20),
                 if (_start == 30)
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      minimumSize: const Size.fromHeight(50), // NEW
+                    ),
                     onPressed: () {
                       setState(() {
                         _start = 30;
@@ -122,6 +131,10 @@ class _OtpPageState extends State<OtpPage> {
                   ),
                 const SizedBox(height: 20),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    minimumSize: const Size.fromHeight(50), // NEW
+                  ),
                   onPressed: () {
                     String input = "";
                     for (final controller in listOtpController) {

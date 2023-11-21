@@ -48,10 +48,10 @@ class DbHelper {
     return res ?? 0;
   }
 
-  Future<UserModel?> getLoginUser(String email, String password) async {
+  Future<UserModel?> getLoginUser(String userName, String password) async {
     var dbClient = await db;
     var res = await dbClient?.rawQuery("SELECT * FROM $tableUser WHERE "
-        "$emailColumn = '$email' AND "
+        "$userNameColumn = '$userName' AND "
         "$passwordColumn = '$password'");
 
     if (res != null) {

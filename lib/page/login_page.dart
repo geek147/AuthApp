@@ -15,7 +15,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   String passwordValidationText = '';
 
@@ -62,64 +62,69 @@ class _LoginPageState extends State<LoginPage> {
       }
     }, builder: (context, state) {
       return Scaffold(
-        appBar: AppBar(
-          title: const Text('Login'),
-        ),
-        body: Form(
-          key: _formKey,
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                TextFormField(
-                  controller: emailController,
-                  validator: (String? value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter an email';
-                    }
-                    if (!value.contains(RegExp(
-                        r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'))) {
-                      return 'Please enter a valid email';
-                    }
-                    return null;
-                  },
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.done,
-                  decoration: const InputDecoration(
-                    labelText: 'Enter Email',
+        body: SafeArea(
+          child: Form(
+            key: _formKey,
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              margin: const EdgeInsets.all(24),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text(
+                    'Login',
+                    style: TextStyle(fontSize: 38, fontWeight: FontWeight.w800),
                   ),
-                ),
-                TextFormField(
-                  controller: passwordController,
-                  validator: validatePassword,
-                  obscureText: _isHidden,
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                    labelText: 'Enter Password',
-                    errorText: passwordValidationText,
-                    suffix: InkWell(
-                      onTap: _togglePasswordView,
-                      child: Icon(
-                        _isHidden ? Icons.visibility : Icons.visibility_off,
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  TextFormField(
+                    controller: usernameController,
+                    validator: (String? value) {
+                      if (value!.isEmpty) {
+                        return 'Please enter a username';
+                      }
+                      return null;
+                    },
+                    textInputAction: TextInputAction.next,
+                    decoration: const InputDecoration(
+                      labelText: 'Username',
+                    ),
+                  ),
+                  TextFormField(
+                    controller: passwordController,
+                    validator: validatePassword,
+                    obscureText: _isHidden,
+                    textInputAction: TextInputAction.next,
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      suffix: InkWell(
+                        onTap: _togglePasswordView,
+                        child: Icon(
+                          _isHidden ? Icons.visibility : Icons.visibility_off,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      context.read<AuthBloc>().add(
-                            SignInEvent(
-                              password: passwordController.text,
-                              email: emailController.text,
-                            ),
-                          );
-                    }
-                  },
-                  child: const Text('Submit'),
-                ),
-              ],
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      minimumSize: const Size.fromHeight(50), // NEW
+                    ),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        context.read<AuthBloc>().add(
+                              SignInEvent(
+                                password: passwordController.text,
+                                userName: usernameController.text,
+                              ),
+                            );
+                      }
+                    },
+                    child: const Text('Submit'),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

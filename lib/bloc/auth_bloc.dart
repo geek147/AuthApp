@@ -20,11 +20,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignInEvent>((event, emit) async {
       try {
         await serviceLocator<DbHelper>()
-            .getLoginUser(event.email, event.password)
+            .getLoginUser(event.userName, event.password)
             .then((userData) {
           if (userData != null) {
             serviceLocator<UserCacheService>()
-                .saveUser(UserModel("", event.email, event.password));
+                .saveUser(UserModel(event.userName, "", event.password));
             emit(AuthSuccess());
           } else {
             emit(AuthError(message: "Cannot found email or password"));
@@ -54,10 +54,10 @@ class SignUpEvent extends AuthEvent {
 }
 
 class SignInEvent extends AuthEvent {
-  final String email;
+  final String userName;
   final String password;
 
-  SignInEvent({required this.email, required this.password});
+  SignInEvent({required this.userName, required this.password});
 }
 
 class SignOutEvent extends AuthEvent {}
