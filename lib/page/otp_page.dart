@@ -82,83 +82,88 @@ class _OtpPageState extends State<OtpPage> {
           body: Container(
             padding: const EdgeInsets.all(8.0),
             margin: const EdgeInsets.all(16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'OTP',
-                  style: TextStyle(fontSize: 38, fontWeight: FontWeight.w800),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Text(
-                  'Enter the OTP sent to your number ending in 11',
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    buildTextField(1),
-                    buildTextField(2),
-                    buildTextField(3),
-                    buildTextField(4),
-                    buildTextField(5),
-                    buildTextField(6),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                if (_start != 30)
-                  Text(
-                    'Resend OTP in $_start seconds',
-                    style: const TextStyle(color: Colors.grey),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    height: 20,
                   ),
-                const SizedBox(height: 20),
-                if (_start == 30)
+                  const Text(
+                    'OTP',
+                    style: TextStyle(fontSize: 38, fontWeight: FontWeight.w800),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Text(
+                    'Enter the OTP sent to your number ending in 11',
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      buildTextField(1),
+                      buildTextField(2),
+                      buildTextField(3),
+                      buildTextField(4),
+                      buildTextField(5),
+                      buildTextField(6),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  if (_start != 30)
+                    Text(
+                      'Resend OTP in $_start seconds',
+                      style: const TextStyle(color: Colors.grey),
+                    ),
+                  const SizedBox(height: 20),
+                  if (_start == 30)
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                        minimumSize: const Size.fromHeight(50), // NEW
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _start = 30;
+                        });
+                        _startTimer();
+                      },
+                      child: const Text('Resend OTP'),
+                    ),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                       minimumSize: const Size.fromHeight(50), // NEW
                     ),
                     onPressed: () {
-                      setState(() {
-                        _start = 30;
-                      });
-                      _startTimer();
-                    },
-                    child: const Text('Resend OTP'),
-                  ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    minimumSize: const Size.fromHeight(50), // NEW
-                  ),
-                  onPressed: () {
-                    String input = "";
-                    for (final controller in listOtpController) {
-                      input = input + controller.text;
-                    }
-                    if (input == '111111') {
-                      context.read<AuthBloc>().add(
-                            SignUpEvent(
-                              password: widget.password,
-                              userName: widget.userName,
-                              email: widget.email,
-                            ),
-                          );
-                    } else {
-                      const snackBar = SnackBar(
-                        content: Text('Please input correct OTP code'),
-                      );
+                      String input = "";
+                      for (final controller in listOtpController) {
+                        input = input + controller.text;
+                      }
+                      if (input == '111111') {
+                        context.read<AuthBloc>().add(
+                              SignUpEvent(
+                                password: widget.password,
+                                userName: widget.userName,
+                                email: widget.email,
+                              ),
+                            );
+                      } else {
+                        const snackBar = SnackBar(
+                          content: Text('Please input correct OTP code'),
+                        );
 
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    }
-                  },
-                  child: const Text('Verify OTP'),
-                ),
-              ],
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
+                    },
+                    child: const Text('Verify OTP'),
+                  ),
+                ],
+              ),
             ),
           ),
         );
