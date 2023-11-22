@@ -26,7 +26,9 @@ class _HomePageState extends State<HomePage> {
       const Duration(seconds: 2),
       () {
         serviceLocator<UserCacheService>().getUser().then((user) {
-          userModel = user;
+          setState(() {
+            userModel = user;
+          });
         });
       },
     );

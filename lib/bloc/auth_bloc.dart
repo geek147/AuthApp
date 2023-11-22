@@ -27,7 +27,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 .saveUser(UserModel(event.userName, "", event.password));
             emit(AuthSuccess());
           } else {
-            emit(AuthError(message: "Cannot found email or password"));
+            emit(AuthError(message: "Cannot found username or password"));
           }
         });
       } catch (e) {

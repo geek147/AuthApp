@@ -87,7 +87,7 @@ class _OtpPageState extends State<OtpPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const SizedBox(
-                    height: 20,
+                    height: 40,
                   ),
                   const Text(
                     'OTP',
